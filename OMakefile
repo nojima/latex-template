@@ -1,0 +1,64 @@
+###############################################################################
+# w32texによるLaTeXファイルのビルドルール
+# 次のようなディレクトリ構成を仮定している
+# root
+# ├ OMakeroot
+# ├ OMakefile       このファイル
+# ├ document.tex    TeXファイル (文字コードはUTF-8)
+# ├ refs.bib        bibファイル (文字コードはUTF-8)
+# ├ hogehoge/       サブディレクトリ (名前は任意)
+# │ ├ sub1.tex     サブディレクトリにあるTeXファイルもコンパイルされる
+# │ ├ sub2.tex     上に同じ
+# └ images/         画像はimagesディレクトリの下に置く
+#    ├ fig01.png    png対応
+#    ├ fig02.jpg    jpg対応 (拡張子は必ずjpgにすること)
+#    └ fig03.eps    eps対応
+###############################################################################
+
+# 生成するPDFの名前 (拡張子は不要)
+TARGET = document
+# 画像ファイルを置くディレクトリ
+IMAGE_DIR = images
+
+# LaTeXコマンド
+LATEX = platex
+# TeTeX v.2にある発展的なLaTeXオプションを有向にするかどうか
+TETEX2_ENABLED = false
+# LaTeXに渡す引数
+LATEXFLAGS = -interaction=nonstopmode --kanji=utf8
+# BibTeXコマンド
+BIBTEX = pbibtex --kanji=utf8
+# .dviから.pdfへのコンバータ
+DVIPDFM = dvipdfmx
+# dvipdfmに渡す引数
+DVIPDFMFLAGS = -p a4
+# Boundary Box生成コマンド
+EBB = ebb
+
+# グロブ展開に失敗したときに空の文字列を返すようにする
+GLOB_OPTIONS = i
+
+# Boundary Boxの生成ルール
+.SUBDIRS: $(IMAGE_DIR)
+	%.bb: %.png
+		$(EBB) $<
+	%.bb: %.jpg
+		$(EBB) $<
+
+TEX_FILES = $(glob *.tex */*.tex)
+BIB_FILES = $(glob *.bib)
+EPS_IMAGE_FILES = $(glob $(IMAGE_DIR)/*.eps)
+OTHER_IMAGE_FILES = $(glob $(IMAGE_DIR)/*.png $(IMAGE_DIR)/*.jpg)
+IMAGE_FILES = $(EPS_IMAGE_FILES) $(OTHER_IMAGE_FILES)
+BB_FILES = $(addsuffix .bb, $(removesuffix $(OTHER_IMAGE_FILES)))
+
+# TeXファイルが依存するファイル
+TEXDEPS[] = $(TEX_FILES) $(BIB_FILES) $(IMAGE_FILES) $(BB_FILES)
+
+LaTeXDocument($(TARGET), $(TARGET))
+
+.DEFAULT: $(TARGET).pdf $(TARGET).dvi
+
+.PHONY: clean
+clean:
+	rm $(glob *.toc *.log *.pdf *.dvi *.fls *.aux *.maf *.mtc *.bbl) $(BB_FILES)

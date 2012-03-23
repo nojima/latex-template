@@ -1,0 +1,16 @@
+*~
+.*.swp
+OMakefile.omc
+OMakeroot.omc
+.omakedb
+.omakedb.lock
+*.toc
+*.log
+*.pdf
+*.dvi
+*.fls
+*.aux
+*.maf
+*.mtc
+*.bbl
+*.blg
