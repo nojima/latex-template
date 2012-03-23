@@ -1,5 +1,7 @@
 *~
 .*.swp
+Thumbs.db
+.DS_Store
 OMakefile.omc
 OMakeroot.omc
 .omakedb
