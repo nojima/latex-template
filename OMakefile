@@ -61,4 +61,4 @@ LaTeXDocument($(TARGET), $(TARGET))
 
 .PHONY: clean
 clean:
-	rm $(glob *.toc *.log *.pdf *.dvi *.fls *.aux *.maf *.mtc *.bbl) $(BB_FILES)
+	rm $(glob *.toc *.log *.pdf *.dvi *.fls *.aux *.maf *.mtc *.bbl *.blg) $(BB_FILES)
