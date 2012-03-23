@@ -32,13 +32,13 @@ BIBTEX = pbibtex --kanji=utf8
 DVIPDFM = dvipdfmx
 # dvipdfmに渡す引数
 DVIPDFMFLAGS = -p a4
-# Boundary Box生成コマンド
+# Bounding Box生成コマンド
 EBB = ebb
 
 # グロブ展開に失敗したときに空の文字列を返すようにする
 GLOB_OPTIONS = i
 
-# Boundary Boxの生成ルール
+# Bounding Boxの生成ルール
 .SUBDIRS: $(IMAGE_DIR)
 	%.bb: %.png
 		$(EBB) $<
