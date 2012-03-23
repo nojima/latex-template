@@ -52,7 +52,7 @@ OTHER_IMAGE_FILES = $(glob $(IMAGE_DIR)/*.png $(IMAGE_DIR)/*.jpg)
 IMAGE_FILES = $(EPS_IMAGE_FILES) $(OTHER_IMAGE_FILES)
 BB_FILES = $(addsuffix .bb, $(removesuffix $(OTHER_IMAGE_FILES)))
 
-# TeXファイルが依存するファイル
+# コンパイルに必要なファイル
 TEXDEPS[] = $(TEX_FILES) $(BIB_FILES) $(IMAGE_FILES) $(BB_FILES)
 
 LaTeXDocument($(TARGET), $(TARGET))
